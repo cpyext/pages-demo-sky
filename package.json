@@ -1,0 +1,57 @@
+{
+  "name": "pages-starter-react-locations",
+  "version": "0.0.0",
+  "description": "An example repository to help users get started with React development on Yext Pages",
+  "author": "sumo@yext.com",
+  "license": "BSD-3-Clause",
+  "type": "module",
+  "scripts": {
+    "dev": "pages dev",
+    "prod": "pages prod",
+    "build:local": "pages build",
+    "generate-notices": "generate-license-file --input package.json --output ./THIRD-PARTY-NOTICES --overwrite",
+    "clean": "rm -rf .artifact-output .yext/ dist/ localData sites-rendered-output",
+    "features": "pages generate features"
+  },
+  "engines": {
+    "node": "^18.4.0 || >=20.2.0"
+  },
+  "dependencies": {
+    "@headlessui/react": "^2.1.10",
+    "@heroicons/react": "^2.1.5",
+    "@types/react-slick": "^0.23.13",
+    "@yext/pages-components": "1.0.1",
+    "@yext/types": "0.1.13-alpha",
+    "classnames": "^2.5.1",
+    "font-awesome": "^4.7.0",
+    "mapbox-gl": "^3.7.0",
+    "react": "^18.3.1",
+    "react-accessible-accordion": "^5.0.0",
+    "react-dom": "^18.3.1",
+    "react-icons": "^5.3.0",
+    "react-schemaorg": "^2.0.0",
+    "react-showdown": "^2.3.1",
+    "react-slick": "^0.30.2",
+    "schema-dts": "^1.1.2",
+    "slick-carousel": "^1.8.1",
+    "tailwind-merge": "^2.5.4"
+  },
+  "devDependencies": {
+    "@tailwindcss/line-clamp": "^0.4.4",
+    "@types/react": "^18.3.11",
+    "@types/react-dom": "^18.3.1",
+    "@typescript-eslint/eslint-plugin": "^8.10.0",
+    "@typescript-eslint/parser": "^8.10.0",
+    "@vitejs/plugin-react": "^4.3.2",
+    "@yext/pages": "1.1.3",
+    "autoprefixer": "^10.4.20",
+    "eslint-config-prettier": "^9.1.0",
+    "eslint-plugin-react": "^7.37.1",
+    "generate-license-file": "^3.5.1",
+    "postcss": "^8.4.47",
+    "prettier": "^3.3.3",
+    "tailwindcss": "^3.4.14",
+    "typescript": "^5.6.3",
+    "vite": "5.4.9"
+  }
+}
