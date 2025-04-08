@@ -27,6 +27,7 @@ export const config: TemplateConfig = {
       "name",
       "address",
       "mainPhone",
+      "reservationUrl",
       "hours",
       "slug",
       "yextDisplayCoordinate",
@@ -102,6 +103,8 @@ const Location: Template<TemplateRenderProps> = ({
     _site,
     name,
     address,
+    mainPhone,
+    reservationUrl,
     c_staticBanner,
     yextDisplayCoordinate,
     c_servicesAvailable,
@@ -137,14 +140,64 @@ const Location: Template<TemplateRenderProps> = ({
             <span className="font-normal">(21 reviews)</span>
           </span>
 
-          <nav className="flex flex-col md:flex-row gap-4">
+          {/* <nav className="flex flex-col md:flex-row gap-4">
             <button className="font-bold md:text-lg bg-secondary text-primary w-full md:w-fit p-2 md:px-4 flex items-center justify-center border rounded-full">
               Get Directions
             </button>
             <button className="border-2 font-bold text-secondary border-secondary md:text-lg w-full md:w-fit p-2 md:px-4 flex items-center justify-center rounded-full">
               Call us
             </button>
-          </nav>
+            <button className="border-2 font-bold text-secondary border-secondary md:text-lg w-full md:w-fit p-2 md:px-4 flex items-center justify-center rounded-full">
+              Book Now
+            </button>
+          </nav> */}
+
+
+
+
+
+
+<nav className="flex flex-col md:flex-row gap-4">
+  {/* 🔹 Get Directions */}
+  {yextDisplayCoordinate.latitude && yextDisplayCoordinate.longitude && (
+    <a
+      href={`https://www.google.com/maps/search/?api=1&query=${yextDisplayCoordinate.latitude},${yextDisplayCoordinate.longitude}`}
+      target="_blank"
+      rel="noopener noreferrer"
+      className="font-bold md:text-lg bg-secondary text-primary w-full md:w-fit p-2 md:px-4 flex items-center justify-center border rounded-full"
+    >
+      Get Directions
+    </a>
+  )}
+
+  {/* 🔹 Call Us via FaceTime or Phone */}
+  {mainPhone && (
+    <a
+      href={`tel:${mainPhone}`}
+      className="border-2 font-bold text-secondary border-secondary md:text-lg w-full md:w-fit p-2 md:px-4 flex items-center justify-center rounded-full"
+    >
+      Call Us
+    </a>
+  )}
+
+  {/* 🔹 Book Now via Reservation URL */}
+  {document.reservationUrl && (
+    <a
+      href={reservationUrl}
+      target="_blank"
+      rel="noopener noreferrer"
+      className="border-2 font-bold text-secondary border-secondary md:text-lg w-full md:w-fit p-2 md:px-4 flex items-center justify-center rounded-full"
+    >
+      Book Now
+    </a>
+  )}
+</nav>
+
+
+
+
+
+
         </article>
 
         {/* 🔹 Right Column: Map */}
