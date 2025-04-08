@@ -4,14 +4,19 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import { Image, LexicalRichText } from "@yext/pages-components";
 
+export interface Root2 {
+  c_bannerImage: CBannerImage;
+  richTextDescriptionV2: any;
+}
+
 export interface CBannerImage {
   clickthroughUrl: string;
   description: string;
   image: Image;
-  richTextDescriptionV2: any;
 }
 
 export interface Image {
+  alternateText: string;
   height: number;
   url: string;
   width: number;
@@ -19,6 +24,10 @@ export interface Image {
 
 const Carousel = (props: any) => {
   const { data } = props;
+  console.log(JSON.stringify(data) + "------");
+
+  //@ts-ignore
+  const SliderComponent = Slider.default || Slider;
 
   const settings = {
     dots: false,
@@ -28,13 +37,15 @@ const Carousel = (props: any) => {
     slidesToScroll: 1,
     initialSlide: 0,
     autoplay: true,
-    autoplaySpeed: 2000,
+    autoplaySpeed: 50,
     responsive: [
       {
         breakpoint: 1024,
         settings: {
           slidesToShow: 1,
           slidesToScroll: 1,
+          autoplay: true,
+          autoplaySpeed: 50,
         },
       },
       {
@@ -42,6 +53,8 @@ const Carousel = (props: any) => {
         settings: {
           slidesToShow: 1,
           slidesToScroll: 1,
+          autoplay: true,
+          autoplaySpeed: 50,
         },
       },
       {
@@ -49,26 +62,28 @@ const Carousel = (props: any) => {
         settings: {
           slidesToShow: 1,
           slidesToScroll: 1,
+          autoplay: true,
+          autoplaySpeed: 50,
         },
       },
     ],
   };
   return (
-    <Slider.default {...settings}>
+    <SliderComponent {...settings}>
       {data &&
-        data.map((item: CBannerImage, index: any) => (
+        data.map((item: Root2, index: any) => (
           <a
-            href={item.clickthroughUrl}
+            href={item.c_bannerImage.clickthroughUrl}
             key={index}
             className="flex flex-col gap-2"
           >
-            <Image image={item.image} />
+            <Image image={item.c_bannerImage} />
             <LexicalRichText
               serializedAST={JSON.stringify(item.richTextDescriptionV2.json)}
             />
           </a>
         ))}
-    </Slider.default>
+    </SliderComponent>
   );
 };
 
