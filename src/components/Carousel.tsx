@@ -24,28 +24,25 @@ export interface Image {
 
 const Carousel = (props: any) => {
   const { data } = props;
-  console.log(JSON.stringify(data) + "------");
-
+ 
   //@ts-ignore
   const SliderComponent = Slider.default || Slider;
 
   const settings = {
     dots: false,
-    infinite: false,
+    infinite: true,
     speed: 500,
     slidesToShow: 1,
     slidesToScroll: 1,
     initialSlide: 0,
     autoplay: true,
-    autoplaySpeed: 50,
+    autoplaySpeed: 3000,
     responsive: [
       {
         breakpoint: 1024,
         settings: {
           slidesToShow: 1,
           slidesToScroll: 1,
-          autoplay: true,
-          autoplaySpeed: 50,
         },
       },
       {
@@ -53,8 +50,6 @@ const Carousel = (props: any) => {
         settings: {
           slidesToShow: 1,
           slidesToScroll: 1,
-          autoplay: true,
-          autoplaySpeed: 50,
         },
       },
       {
@@ -62,8 +57,6 @@ const Carousel = (props: any) => {
         settings: {
           slidesToShow: 1,
           slidesToScroll: 1,
-          autoplay: true,
-          autoplaySpeed: 50,
         },
       },
     ],
@@ -75,9 +68,12 @@ const Carousel = (props: any) => {
           <a
             href={item.c_bannerImage.clickthroughUrl}
             key={index}
-            className="flex flex-col gap-2"
+            className="flex flex-col gap-2 "
           >
-            <Image image={item.c_bannerImage} />
+            <Image
+              image={item.c_bannerImage}
+              className="!max-w-none !w-full !h-full"
+            />
             <LexicalRichText
               serializedAST={JSON.stringify(item.richTextDescriptionV2.json)}
             />

@@ -107,8 +107,7 @@ const Location: Template<TemplateRenderProps> = ({
     c_servicesAvailable,
     c_bannerOfferte,
   } = document;
-  console.log(JSON.stringify(c_bannerOfferte));
-
+ 
   return (
     <PageLayout _site={_site}>
       {/* 🧭 Breadcrumbs */}

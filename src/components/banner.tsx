@@ -53,8 +53,7 @@ const Banner = ({ type, direction }: BannerProps) => {
     network,
     fax,
   } = type;
-  console.log(JSON.stringify(type));
-
+ 
   return (
     <section className="flex flex-col ">
       {direction === "LTR" ? (
