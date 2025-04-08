@@ -32,6 +32,7 @@ export const config: TemplateConfig = {
       "c_servicesAvailable.name",
       "c_servicesAvailable.address",
       "c_bannerOfferte",
+      "c_icon.url",
     ],
     filter: {
       entityTypes: ["location"],
@@ -99,6 +100,9 @@ const Location: Template<TemplateRenderProps> = ({
     name,
     address,
     c_bannerImage,
+    c_staticBanner,
+    c_icon,
+
     MapboxMaps,
     richTextDescriptionV2,
     c_servicesAvailable,
@@ -144,12 +148,11 @@ const Location: Template<TemplateRenderProps> = ({
         )}
       </section>
 
-      {/* 🎯 Offer & Services Section */}
+      {/* Offer & Services Section */}
       <div className="px-6 py-10 max-w-7xl mx-auto space-y-10">
-        {/* 🏷 Offer Title */}
         <h1 className="text-4xl font-bold text-center">{name}</h1>
 
-        {/* 🖼️ Banner Image */}
+        {/* Banner Image */}
         <a
           href="https://trova.sky.it/c/merchandising-sky"
           target="_blank"
@@ -170,7 +173,7 @@ const Location: Template<TemplateRenderProps> = ({
           {richTextDescriptionV2}
         </div>
 
-        {/* ✅ Available Services */}
+        {/* ✅ Available Services
         <div className="max-w-7xl mx-auto px-6 py-10">
           <h2 className="text-2xl font-bold mb-6">Available Services</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -184,6 +187,48 @@ const Location: Template<TemplateRenderProps> = ({
                   className="border rounded-xl p-5 bg-white shadow hover:shadow-lg transition-shadow"
                 >
                   <h3 className="text-xl font-semibold mb-2">{service.name}</h3>
+                  <p className="text-gray-600 whitespace-pre-line">
+                    {service.richTextDescriptionV2}
+                  </p>
+                </div>
+              )
+            )}
+          </div>
+        </div> */}
+
+        {/* ✅ Available Services */}
+        <div className="max-w-7xl mx-auto px-6 py-10">
+          <h2 className="text-2xl font-bold mb-6">Available Services</h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            {c_servicesAvailable.map(
+              (
+                service: {
+                  name: string;
+                  richTextDescriptionV2: string;
+                  c_icon?: {
+                    url: string;
+                    alternateText?: string;
+                  };
+                },
+                index: number
+              ) => (
+                <div
+                  key={index}
+                  className="border rounded-xl p-5 bg-white shadow hover:shadow-lg transition-shadow"
+                >
+                  {/* Name + Icon Row */}
+                  <div className="flex items-center gap-3 mb-2">
+                    {service.c_icon?.url && (
+                      <img
+                        src={service.c_icon.url}
+                        alt={service.c_icon.alternateText || "Service Icon"}
+                        className="w-6 h-6 object-contain"
+                      />
+                    )}
+                    <h3 className="text-xl font-semibold">{service.name}</h3>
+                  </div>
+
+                  {/* Description */}
                   <p className="text-gray-600 whitespace-pre-line">
                     {service.richTextDescriptionV2}
                   </p>
@@ -220,6 +265,37 @@ const Location: Template<TemplateRenderProps> = ({
           </div>
         </div>
         */}
+
+        {/* Static Banner Section */}
+        {c_bannerImage?.url && (
+          <div className="w-full flex justify-center">
+            <img
+              src={c_bannerImage.url}
+              alt={c_bannerImage.alternateText || "Banner Image"}
+              className="w-full max-w-screen-xl rounded-xl shadow-lg"
+            />
+          </div>
+        )}
+
+        {c_staticBanner?.c_bannerImage?.url && (
+          <div className="w-full flex justify-center">
+            <img
+              src={c_staticBanner.c_bannerImage.url}
+              alt={
+                c_staticBanner.c_bannerImage.alternateText || "Static Banner"
+              }
+              style={{
+                width: "100%", // Makes it responsive to parent container
+                maxWidth: "1440px", // Optional: Max width limit
+                height: "360px", // 🔁 You can control this height here
+                objectFit: "cover", // Crops the image to fill height+width nicely
+                borderRadius: "1rem", // Optional: Rounded corners
+              }}
+              className="shadow-lg"
+              loading="lazy"
+            />
+          </div>
+        )}
       </div>
     </PageLayout>
   );
