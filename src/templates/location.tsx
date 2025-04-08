@@ -115,6 +115,15 @@ const Location: Template<TemplateRenderProps> = ({
         <BreadCrumbs data={address} currAddress={address.line1} />
       </main>
 
+
+       {/* Offer & Services Section */}
+       {c_bannerOfferte && (
+        <div className="px-6 py-10 max-w-7xl mx-auto space-y-10">
+          <h1 className="text-4xl font-bold text-center">{name}</h1>
+          <Carousel data={c_bannerOfferte} />
+        </div>
+      )}
+
       {/* Main + Map Section */}
       {/* 🦸 Hero Section with Map */}
       <section className="centered-container grid md:grid-cols-2 gap-6 items-start py-10">
@@ -147,13 +156,7 @@ const Location: Template<TemplateRenderProps> = ({
         )}
       </section>
 
-      {/* Offer & Services Section */}
-      {c_bannerOfferte && (
-        <div className="px-6 py-10 max-w-7xl mx-auto space-y-10">
-          <h1 className="text-4xl font-bold text-center">{name}</h1>
-          <Carousel data={c_bannerOfferte} />
-        </div>
-      )}
+     
       {/* ✅ Available Services
         <div className="max-w-7xl mx-auto px-6 py-10">
           <h2 className="text-2xl font-bold mb-6">Available Services</h2>
