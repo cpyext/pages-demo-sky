@@ -110,7 +110,7 @@ const Location: Template<TemplateRenderProps> = ({
     c_servicesAvailable,
     c_bannerOfferte,
   } = document;
- 
+
   return (
     <PageLayout _site={_site}>
       {/* 🧭 Breadcrumbs */}
@@ -118,9 +118,8 @@ const Location: Template<TemplateRenderProps> = ({
         <BreadCrumbs data={address} currAddress={address.line1} />
       </main>
 
-
-       {/* Offer & Services Section */}
-       {c_bannerOfferte && (
+      {/* Offer Section */}
+      {c_bannerOfferte && (
         <div className="px-6 py-10 max-w-7xl mx-auto space-y-10">
           <h1 className="text-4xl font-bold text-center">{name}</h1>
           <Carousel data={c_bannerOfferte} />
@@ -152,52 +151,42 @@ const Location: Template<TemplateRenderProps> = ({
             </button>
           </nav> */}
 
+          <nav className="flex flex-col md:flex-row gap-4">
+            {/* 🔹 Get Directions */}
+            {yextDisplayCoordinate.latitude &&
+              yextDisplayCoordinate.longitude && (
+                <a
+                  href={`https://www.google.com/maps/search/?api=1&query=${yextDisplayCoordinate.latitude},${yextDisplayCoordinate.longitude}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="font-bold md:text-lg bg-secondary text-primary w-full md:w-fit p-2 md:px-4 flex items-center justify-center border rounded-full"
+                >
+                  Ottieni indicazioni
+                </a>
+              )}
 
+            {/* 🔹 Call Us via FaceTime or Phone */}
+            {mainPhone && (
+              <a
+                href={`tel:${mainPhone}`}
+                className="border-2 font-bold text-secondary border-secondary md:text-lg w-full md:w-fit p-2 md:px-4 flex items-center justify-center rounded-full"
+              >
+                Chiama
+              </a>
+            )}
 
-
-
-
-<nav className="flex flex-col md:flex-row gap-4">
-  {/* 🔹 Get Directions */}
-  {yextDisplayCoordinate.latitude && yextDisplayCoordinate.longitude && (
-    <a
-      href={`https://www.google.com/maps/search/?api=1&query=${yextDisplayCoordinate.latitude},${yextDisplayCoordinate.longitude}`}
-      target="_blank"
-      rel="noopener noreferrer"
-      className="font-bold md:text-lg bg-secondary text-primary w-full md:w-fit p-2 md:px-4 flex items-center justify-center border rounded-full"
-    >
-      Get Directions
-    </a>
-  )}
-
-  {/* 🔹 Call Us via FaceTime or Phone */}
-  {mainPhone && (
-    <a
-      href={`tel:${mainPhone}`}
-      className="border-2 font-bold text-secondary border-secondary md:text-lg w-full md:w-fit p-2 md:px-4 flex items-center justify-center rounded-full"
-    >
-      Call Us
-    </a>
-  )}
-
-  {/* 🔹 Book Now via Reservation URL */}
-  {document.reservationUrl && (
-    <a
-      href={reservationUrl}
-      target="_blank"
-      rel="noopener noreferrer"
-      className="border-2 font-bold text-secondary border-secondary md:text-lg w-full md:w-fit p-2 md:px-4 flex items-center justify-center rounded-full"
-    >
-      Book Now
-    </a>
-  )}
-</nav>
-
-
-
-
-
-
+            {/* 🔹 Book Now via Reservation URL */}
+            {document.reservationUrl && (
+              <a
+                href={reservationUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="border-2 font-bold text-secondary border-secondary md:text-lg w-full md:w-fit p-2 md:px-4 flex items-center justify-center rounded-full"
+              >
+                Prenota appuntamento
+              </a>
+            )}
+          </nav>
         </article>
 
         {/* 🔹 Right Column: Map */}
@@ -209,7 +198,6 @@ const Location: Template<TemplateRenderProps> = ({
         )}
       </section>
 
-     
       {/* ✅ Available Services
         <div className="max-w-7xl mx-auto px-6 py-10">
           <h2 className="text-2xl font-bold mb-6">Available Services</h2>
