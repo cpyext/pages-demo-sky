@@ -21,7 +21,7 @@ const StaticMap = (props: Coordinates) => {
           `${latitude}` +
           "," +
           `${longitude}` +
-          `&key=${import.meta.env.YEXT_PUBLIC_MAP_KEY}`
+          `&key=${import.meta.env.YEXT_PUBLIC_STATIC_MAP_KEY}`
         }
       ></img>
     </>

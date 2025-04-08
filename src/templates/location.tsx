@@ -12,6 +12,8 @@ import "../index.css";
 import PageLayout from "../components/page-layout";
 import BreadCrumbs from "../components/breadCrumbs";
 import StaticMap from "../components/static-map";
+import { Image, LexicalRichText } from "@yext/pages-components";
+import Carousel from "../components/Carousel";
 
 // Template config
 export const config: TemplateConfig = {
@@ -27,12 +29,13 @@ export const config: TemplateConfig = {
       "mainPhone",
       "hours",
       "slug",
-      "c_bannerImage",
-      "richTextDescriptionV2",
+      "yextDisplayCoordinate",
       "c_servicesAvailable.name",
-      "c_servicesAvailable.address",
-      "c_bannerOfferte",
-      "c_icon.url",
+      "c_servicesAvailable.c_icon",
+      "c_servicesAvailable.richTextDescriptionV2",
+      "c_bannerOfferte.c_bannerImage",
+      "c_bannerOfferte.richTextDescriptionV2",
+      "c_staticBanner.c_bannerImage",
     ],
     filter: {
       entityTypes: ["location"],
@@ -99,15 +102,12 @@ const Location: Template<TemplateRenderProps> = ({
     _site,
     name,
     address,
-    c_bannerImage,
     c_staticBanner,
-    c_icon,
-
-    MapboxMaps,
-    richTextDescriptionV2,
+    yextDisplayCoordinate,
     c_servicesAvailable,
     c_bannerOfferte,
   } = document;
+  console.log(JSON.stringify(c_bannerOfferte));
 
   return (
     <PageLayout _site={_site}>
@@ -140,40 +140,22 @@ const Location: Template<TemplateRenderProps> = ({
         </article>
 
         {/* 🔹 Right Column: Map */}
-        {document.mapMarker && (
+        {yextDisplayCoordinate && (
           <StaticMap
-            latitude={document.mapMarker.latitude}
-            longitude={document.mapMarker.longitude}
+            latitude={yextDisplayCoordinate.latitude}
+            longitude={yextDisplayCoordinate.longitude}
           />
         )}
       </section>
 
       {/* Offer & Services Section */}
-      <div className="px-6 py-10 max-w-7xl mx-auto space-y-10">
-        <h1 className="text-4xl font-bold text-center">{name}</h1>
-
-        {/* Banner Image */}
-        <a
-          href="https://trova.sky.it/c/merchandising-sky"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="block"
-        >
-          <div className="rounded-2xl shadow-lg overflow-hidden bg-white">
-            <img
-              src={c_bannerImage}
-              alt="Offer Banner"
-              className="w-full h-80 object-cover"
-            />
-          </div>
-        </a>
-
-        {/* 📝 Offer Description */}
-        <div className="p-6 text-lg text-gray-700 whitespace-pre-line">
-          {richTextDescriptionV2}
+      {c_bannerOfferte && (
+        <div className="px-6 py-10 max-w-7xl mx-auto space-y-10">
+          <h1 className="text-4xl font-bold text-center">{name}</h1>
+          <Carousel data={c_bannerOfferte} />
         </div>
-
-        {/* ✅ Available Services
+      )}
+      {/* ✅ Available Services
         <div className="max-w-7xl mx-auto px-6 py-10">
           <h2 className="text-2xl font-bold mb-6">Available Services</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -196,50 +178,37 @@ const Location: Template<TemplateRenderProps> = ({
           </div>
         </div> */}
 
-        {/* ✅ Available Services */}
-        <div className="max-w-7xl mx-auto px-6 py-10">
-          <h2 className="text-2xl font-bold mb-6">Available Services</h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            {c_servicesAvailable.map(
-              (
-                service: {
-                  name: string;
-                  richTextDescriptionV2: string;
-                  c_icon?: {
-                    url: string;
-                    alternateText?: string;
-                  };
-                },
-                index: number
-              ) => (
-                <div
-                  key={index}
-                  className="border rounded-xl p-5 bg-white shadow hover:shadow-lg transition-shadow"
-                >
-                  {/* Name + Icon Row */}
-                  <div className="flex items-center gap-3 mb-2">
-                    {service.c_icon?.url && (
-                      <img
-                        src={service.c_icon.url}
-                        alt={service.c_icon.alternateText || "Service Icon"}
-                        className="w-6 h-6 object-contain"
-                      />
-                    )}
-                    <h3 className="text-xl font-semibold">{service.name}</h3>
-                  </div>
-
-                  {/* Description */}
-                  <p className="text-gray-600 whitespace-pre-line">
-                    {service.richTextDescriptionV2}
-                  </p>
-                </div>
-              )
-            )}
-          </div>
+      {/* ✅ Available Services */}
+      <div className="max-w-7xl mx-auto px-6 py-10">
+        <h2 className="text-2xl font-bold mb-6">Available Services</h2>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          {c_servicesAvailable.map((service: any, index: number) => (
+            <div
+              key={index}
+              className="border rounded-xl p-5 bg-white shadow hover:shadow-lg transition-shadow"
+            >
+              {/* Name + Icon Row */}
+              <div className="flex items-center gap-3 mb-2">
+                {service.c_icon && (
+                  <Image
+                    image={service.c_icon}
+                    className="!max-w-none !w-6 !h-6 object-contain"
+                  />
+                )}
+                <h3 className="text-xl font-semibold">{service.name}</h3>
+              </div>
+              <LexicalRichText
+                serializedAST={JSON.stringify(
+                  service.richTextDescriptionV2.json
+                )}
+              />
+            </div>
+          ))}
         </div>
+      </div>
 
-        {/* 📍 Related Locations (Optional Section) */}
-        {/* Uncomment if needed:
+      {/* 📍 Related Locations (Optional Section) */}
+      {/* Uncomment if needed:
         <div>
           <h2 className="text-2xl font-semibold mb-4">Available At These Locations</h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
@@ -266,37 +235,14 @@ const Location: Template<TemplateRenderProps> = ({
         </div>
         */}
 
-        {/* Static Banner Section */}
-        {c_bannerImage?.url && (
-          <div className="w-full flex justify-center">
-            <img
-              src={c_bannerImage.url}
-              alt={c_bannerImage.alternateText || "Banner Image"}
-              className="w-full max-w-screen-xl rounded-xl shadow-lg"
-            />
-          </div>
-        )}
+      {/* Static Banner Section */}
 
-        {c_staticBanner?.c_bannerImage?.url && (
-          <div className="w-full flex justify-center">
-            <img
-              src={c_staticBanner.c_bannerImage.url}
-              alt={
-                c_staticBanner.c_bannerImage.alternateText || "Static Banner"
-              }
-              style={{
-                width: "100%", // Makes it responsive to parent container
-                maxWidth: "1440px", // Optional: Max width limit
-                height: "360px", // 🔁 You can control this height here
-                objectFit: "cover", // Crops the image to fill height+width nicely
-                borderRadius: "1rem", // Optional: Rounded corners
-              }}
-              className="shadow-lg"
-              loading="lazy"
-            />
-          </div>
-        )}
-      </div>
+      {c_staticBanner[0].c_bannerImage && (
+        <Image
+          image={c_staticBanner[0].c_bannerImage}
+          className="rounded-xl border !h-[550px]"
+        />
+      )}
     </PageLayout>
   );
 };
