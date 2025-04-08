@@ -283,7 +283,7 @@ const Location: Template<TemplateRenderProps> = ({
       {c_staticBanner[0].c_bannerImage && (
         <Image
           image={c_staticBanner[0].c_bannerImage}
-          className="rounded-xl border !h-[550px]"
+          className="rounded-xl border !h-[550px] object-contain mx-auto"
         />
       )}
     </PageLayout>
