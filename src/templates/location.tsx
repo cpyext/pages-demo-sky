@@ -128,6 +128,10 @@ const Location: Template<TemplateRenderProps> = ({
         <BreadCrumbs data={address} currAddress={address.line1} />
       </main>
       <div className="centered-container space-y-12">
+       
+       
+       
+       
         {/* Offer Section */}
         {c_bannerOfferte && (
           <div className="mt-16 w-full">
@@ -135,6 +139,11 @@ const Location: Template<TemplateRenderProps> = ({
             <Carousel data={c_bannerOfferte} />
           </div>
         )}
+
+
+
+
+        
 
         {/* Main + Map Section */}
         {/* 🦸 Hero Section with Map */}
