@@ -55,13 +55,14 @@ const Carousel = (props: any) => {
           >
             {/* ✅ Overlay Rich Text like MasterChef banner */}
             <div className="absolute inset-0 z-10 flex items-center justify-center px-6 py-4">
-  <div className="text-gray-100 font-light  font-style: italic text-center mt-4 text-xl md:text-xl lg:text-xl drop-shadow-lg leading-snug w-3/4 max-w-[600px]">
-    <LexicalRichText
-      serializedAST={JSON.stringify(item.richTextDescriptionV2.json)}
-    />
-  </div>
-</div>
-
+              <div className="text-gray-100 font-light  font-style: italic text-center mt-4 text-xl md:text-xl lg:text-xl drop-shadow-lg leading-snug w-3/4 max-w-[600px]">
+                <LexicalRichText
+                  serializedAST={JSON.stringify(
+                    item.richTextDescriptionV2.json
+                  )}
+                />
+              </div>
+            </div>
 
             {/* ✅ Fullscreen background image */}
             <Image
