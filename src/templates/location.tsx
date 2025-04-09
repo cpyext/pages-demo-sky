@@ -120,7 +120,7 @@ const Location: Template<TemplateRenderProps> = ({
     c_servicesAvailable,
     c_bannerOfferte,
   } = document;
-
+ 
   return (
     <PageLayout _site={_site}>
       {/* 🧭 Breadcrumbs */}
@@ -128,10 +128,6 @@ const Location: Template<TemplateRenderProps> = ({
         <BreadCrumbs data={address} currAddress={address.line1} />
       </main>
       <div className="centered-container space-y-12">
-       
-       
-       
-       
         {/* Offer Section */}
         {c_bannerOfferte && (
           <div className="mt-16 w-full">
@@ -140,93 +136,90 @@ const Location: Template<TemplateRenderProps> = ({
           </div>
         )}
 
+        <section className="grid grid-cols-1 md:grid-cols-3 gap-8 items-start px-4 md:px-8 py-6 max-w-7xl mx-auto">
+          {/* 🔷 Column 1: Info & CTAs */}
+          <article className="flex flex-col gap-4">
+            <h1 className="text-xl md:text-xl font-semibold text-gray-700">
+              {name}
+            </h1>
+            {/* <p className="text-2xl md:text-2xl font-extrabold text-black">{address.line1}</p> */}
 
+            <HoursStatus
+              currentTemplate={(params: any) => (
+                <span className="HoursStatus-current--search">
+                  {params.isOpen ? (
+                    <span className="font-semibold text-green-600">
+                      Open Now
+                    </span>
+                  ) : (
+                    <span className="font-semibold text-red-600">Closed</span>
+                  )}
+                </span>
+              )}
+              hours={hours}
+              timezone={document.timezone}
+              className="text-lg text-gray-800"
+              dayOfWeekTemplate={() => null}
+            />
 
-
-        
-
-<section className="grid grid-cols-1 md:grid-cols-3 gap-8 items-start px-4 md:px-8 py-6 max-w-7xl mx-auto">
-  {/* 🔷 Column 1: Info & CTAs */}
-  <article className="flex flex-col gap-4">
-    <h1 className="text-xl md:text-xl font-semibold text-gray-700">{name}</h1>
-    {/* <p className="text-2xl md:text-2xl font-extrabold text-black">{address.line1}</p> */}
-
-    <HoursStatus
-      currentTemplate={(params: any) => (
-        <span className="HoursStatus-current--search">
-          {params.isOpen ? (
-            <span className="font-semibold text-green-600">Open Now</span>
-          ) : (
-            <span className="font-semibold text-red-600">Closed</span>
-          )}
-        </span>
-      )}
-      hours={hours}
-      timezone={document.timezone}
-      className="text-lg text-gray-800"
-      dayOfWeekTemplate={() => null}
-    />
-
-    {/* ⭐ Rating */}
-    {/* <span className="flex items-center gap-2 text-gray-700">
+            {/* ⭐ Rating */}
+            {/* <span className="flex items-center gap-2 text-gray-700">
       <p className="font-bold text-lg">4.5</p>
       <span className="text-base font-normal">(21 reviews)</span>
     </span> */}
 
-    {/* 📍 CTAs: vertically stacked */}
-    <nav className="flex flex-col gap-3 pt-2 w-full items-start">
-      {yextDisplayCoordinate.latitude && yextDisplayCoordinate.longitude && (
-        <a
-          href={`https://www.google.com/maps/search/?api=1&query=${yextDisplayCoordinate.latitude},${yextDisplayCoordinate.longitude}`}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="bg-secondary text-primary text-center font-semibold w-full md:w-72 px-4 py-2 rounded-full border hover:opacity-90"
-        >
-          Ottieni indicazioni
-        </a>
-      )}
-      {mainPhone && (
-        <a
-          href={`tel:${mainPhone}`}
-          className="text-secondary font-semibold w-full md:w-72 border-2 border-secondary px-4 py-2 rounded-full hover:bg-secondary hover:text-white transition text-center"
-        >
-          Chiama
-        </a>
-      )}
-      {reservationUrl && (
-        <a
-          href={reservationUrl}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="text-secondary font-semibold w-full md:w-72 border-2 border-secondary px-4 py-2 rounded-full hover:bg-secondary hover:text-white transition text-center"
-        >
-          Prenota appuntamento
-        </a>
-      )}
-    </nav>
-  </article>
+            {/* 📍 CTAs: vertically stacked */}
+            <nav className="flex flex-col gap-3 pt-2 w-full items-start">
+              {yextDisplayCoordinate.latitude &&
+                yextDisplayCoordinate.longitude && (
+                  <a
+                    href={`https://www.google.com/maps/search/?api=1&query=${yextDisplayCoordinate.latitude},${yextDisplayCoordinate.longitude}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="bg-secondary text-primary text-center font-semibold w-full md:w-72 px-4 py-2 rounded-full border hover:opacity-90"
+                  >
+                    Ottieni indicazioni
+                  </a>
+                )}
+              {mainPhone && (
+                <a
+                  href={`tel:${mainPhone}`}
+                  className="text-secondary font-semibold w-full md:w-72 border-2 border-secondary px-4 py-2 rounded-full hover:bg-secondary hover:text-white transition text-center"
+                >
+                  Chiama
+                </a>
+              )}
+              {reservationUrl && (
+                <a
+                  href={reservationUrl.displayUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-secondary font-semibold w-full md:w-72 border-2 border-secondary px-4 py-2 rounded-full hover:bg-secondary hover:text-white transition text-center"
+                >
+                  Prenota appuntamento
+                </a>
+              )}
+            </nav>
+          </article>
 
-  {/* 🟡 Column 2: Hours */}
-  <article className="flex flex-col gap-8">
-  <h2 className="text-2xl font-bold text-gray-900">Hours</h2>
-  <div className="space-y-2">
-    
-    <HoursTable hours={hours} />
-  </div>
-</article>
+          {/* 🟡 Column 2: Hours */}
+          <article className="flex flex-col gap-8">
+            <h2 className="text-2xl font-bold text-gray-900">Hours</h2>
+            <div className="space-y-2">
+              <HoursTable hours={hours} />
+            </div>
+          </article>
 
-  {/* 🟢 Column 3: Map */}
-  {yextDisplayCoordinate && (
-    <div className="w-full h-full rounded-lg overflow-hidden shadow-sm">
-      <StaticMap
-        latitude={yextDisplayCoordinate.latitude}
-        longitude={yextDisplayCoordinate.longitude}
-      />
-    </div>
-  )}
-</section>
-
-
+          {/* 🟢 Column 3: Map */}
+          {yextDisplayCoordinate && (
+            <div className="w-full h-full rounded-lg overflow-hidden shadow-sm">
+              <StaticMap
+                latitude={yextDisplayCoordinate.latitude}
+                longitude={yextDisplayCoordinate.longitude}
+              />
+            </div>
+          )}
+        </section>
 
         {/* ✅ Available Services
         <div className="max-w-7xl mx-auto px-6 py-10">
