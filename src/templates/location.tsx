@@ -14,6 +14,15 @@ import BreadCrumbs from "../components/breadCrumbs";
 import StaticMap from "../components/static-map";
 import { Image, LexicalRichText } from "@yext/pages-components";
 import Carousel from "../components/Carousel";
+import {
+  Address,
+  HoursStatus,
+  HoursTable,
+  getDirections,
+  Map,
+  MapboxMaps,
+  Marker,
+} from "@yext/pages-components";
 
 // Template config
 export const config: TemplateConfig = {
@@ -104,6 +113,7 @@ const Location: Template<TemplateRenderProps> = ({
     name,
     address,
     mainPhone,
+    hours,
     reservationUrl,
     c_staticBanner,
     yextDisplayCoordinate,
@@ -117,88 +127,91 @@ const Location: Template<TemplateRenderProps> = ({
       <main id="main" className="centered-container space-y-12">
         <BreadCrumbs data={address} currAddress={address.line1} />
       </main>
+      <div className="centered-container space-y-12">
+        {/* Offer Section */}
+        {c_bannerOfferte && (
+          <div className="mt-16 w-full">
+            <h1 className="text-4xl font-bold text-center">{name}</h1>
+            <Carousel data={c_bannerOfferte} />
+          </div>
+        )}
 
-      {/* Offer Section */}
-      {c_bannerOfferte && (
-        <div className="px-6 py-10 max-w-7xl mx-auto space-y-10">
-          <h1 className="text-4xl font-bold text-center">{name}</h1>
-          <Carousel data={c_bannerOfferte} />
-        </div>
-      )}
-
-      {/* Main + Map Section */}
-      {/* 🦸 Hero Section with Map */}
-      <section className="centered-container grid md:grid-cols-2 gap-6 items-start py-10">
-        {/* 🔹 Left Column: Hero Info */}
-        <article className="flex flex-col gap-4">
-          <p className="text-xl md:text-2xl font-bold">{name}</p>
-          <h1 className="text-2xl md:text-5xl font-bold">{address.line1}</h1>
-
-          <span className="flex items-center gap-2">
-            <p className="font-bold">4.5</p>
-            <span className="font-normal">(21 reviews)</span>
-          </span>
-
-          {/* <nav className="flex flex-col md:flex-row gap-4">
-            <button className="font-bold md:text-lg bg-secondary text-primary w-full md:w-fit p-2 md:px-4 flex items-center justify-center border rounded-full">
-              Get Directions
-            </button>
-            <button className="border-2 font-bold text-secondary border-secondary md:text-lg w-full md:w-fit p-2 md:px-4 flex items-center justify-center rounded-full">
-              Call us
-            </button>
-            <button className="border-2 font-bold text-secondary border-secondary md:text-lg w-full md:w-fit p-2 md:px-4 flex items-center justify-center rounded-full">
-              Book Now
-            </button>
-          </nav> */}
-
-          <nav className="flex flex-col md:flex-row gap-4">
-            {/* 🔹 Get Directions */}
-            {yextDisplayCoordinate.latitude &&
-              yextDisplayCoordinate.longitude && (
+        {/* Main + Map Section */}
+        {/* 🦸 Hero Section with Map */}
+        <section className=" grid grid-cols-1 md:grid-cols-3 gap-6 items-start ">
+          {/* :large_blue_square: Column 1: Info (with inline CTAs) */}
+          <article className="flex flex-col gap-4">
+            <p className="text-xl md:text-2xl font-bold">{name}</p>
+            <h1 className="text-2xl md:text-5xl font-bold">{address.line1}</h1>
+            <HoursStatus
+              currentTemplate={(params: any) => (
+                <span className="HoursStatus-current--search">
+                  {params.isOpen ? (
+                    <span className="font-bold">Open Now</span>
+                  ) : (
+                    <span className="font-bold">Closed</span>
+                  )}
+                </span>
+              )}
+              hours={hours}
+              timezone={document.timezone}
+              className="text-lg"
+              dayOfWeekTemplate={() => null}
+            />
+            <span className="flex items-center gap-2">
+              <p className="font-bold">4.5</p>
+              <span className="font-normal">(21 reviews)</span>
+            </span>
+            {/* :small_blue_diamond: Inline CTAs */}
+            <nav className="flex flex-col md:flex-row gap-4">
+              {yextDisplayCoordinate.latitude &&
+                yextDisplayCoordinate.longitude && (
+                  <a
+                    href={`https://www.google.com/maps/search/?api=1&query=${yextDisplayCoordinate.latitude},${yextDisplayCoordinate.longitude}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="font-bold md:text-lg bg-secondary text-primary w-full md:w-fit p-2 md:px-4 flex items-center justify-center border rounded-full"
+                  >
+                    Ottieni indicazioni
+                  </a>
+                )}
+              {mainPhone && (
                 <a
-                  href={`https://www.google.com/maps/search/?api=1&query=${yextDisplayCoordinate.latitude},${yextDisplayCoordinate.longitude}`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="font-bold md:text-lg bg-secondary text-primary w-full md:w-fit p-2 md:px-4 flex items-center justify-center border rounded-full"
+                  href={`tel:${mainPhone}`}
+                  className="border-2 font-bold text-secondary border-secondary md:text-lg w-full md:w-fit p-2 md:px-4 flex items-center justify-center rounded-full"
                 >
-                  Ottieni indicazioni
+                  Chiama
                 </a>
               )}
+              {reservationUrl && (
+                <a
+                  href={reservationUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="border-2 font-bold text-secondary border-secondary md:text-lg w-full md:w-fit p-2 md:px-4 flex items-center justify-center rounded-full"
+                >
+                  Prenota appuntamento
+                </a>
+              )}
+            </nav>
+          </article>
+          {/* :large_yellow_square: Column 2: Hours */}
+          <article className="flex flex-col gap-4">
+            <h2 className="text-2xl font-bold">Hours</h2>
+            <HoursTable hours={hours} />
+          </article>
+          {/* :large_green_square: Column 3: Map */}
+          {yextDisplayCoordinate && (
+            <div className="w-full h-full">
+              <StaticMap
+                latitude={yextDisplayCoordinate.latitude}
+                longitude={yextDisplayCoordinate.longitude}
+              />
+            </div>
+          )}
+        </section>
 
-            {/* 🔹 Call Us via FaceTime or Phone */}
-            {mainPhone && (
-              <a
-                href={`tel:${mainPhone}`}
-                className="border-2 font-bold text-secondary border-secondary md:text-lg w-full md:w-fit p-2 md:px-4 flex items-center justify-center rounded-full"
-              >
-                Chiama
-              </a>
-            )}
-
-            {/* 🔹 Book Now via Reservation URL */}
-            {document.reservationUrl && (
-              <a
-                href={reservationUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="border-2 font-bold text-secondary border-secondary md:text-lg w-full md:w-fit p-2 md:px-4 flex items-center justify-center rounded-full"
-              >
-                Prenota appuntamento
-              </a>
-            )}
-          </nav>
-        </article>
-
-        {/* 🔹 Right Column: Map */}
-        {yextDisplayCoordinate && (
-          <StaticMap
-            latitude={yextDisplayCoordinate.latitude}
-            longitude={yextDisplayCoordinate.longitude}
-          />
-        )}
-      </section>
-
-      {/* ✅ Available Services
+        {/* ✅ Available Services
         <div className="max-w-7xl mx-auto px-6 py-10">
           <h2 className="text-2xl font-bold mb-6">Available Services</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -221,37 +234,37 @@ const Location: Template<TemplateRenderProps> = ({
           </div>
         </div> */}
 
-      {/* ✅ Available Services */}
-      <div className="max-w-7xl mx-auto px-6 py-10">
-        <h2 className="text-2xl font-bold mb-6">Available Services</h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          {c_servicesAvailable.map((service: any, index: number) => (
-            <div
-              key={index}
-              className="border rounded-xl p-5 bg-white shadow hover:shadow-lg transition-shadow"
-            >
-              {/* Name + Icon Row */}
-              <div className="flex items-center gap-3 mb-2">
-                {service.c_icon && (
-                  <Image
-                    image={service.c_icon}
-                    className="!max-w-none !w-6 !h-6 object-contain"
-                  />
-                )}
-                <h3 className="text-xl font-semibold">{service.name}</h3>
+        {/* ✅ Available Services */}
+        <div>
+          <h2 className="text-2xl font-bold mb-6">Available Services</h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            {c_servicesAvailable.map((service: any, index: number) => (
+              <div
+                key={index}
+                className="border rounded-xl p-5 bg-white shadow hover:shadow-lg transition-shadow"
+              >
+                {/* Name + Icon Row */}
+                <div className="flex items-center gap-3 mb-2">
+                  {service.c_icon && (
+                    <Image
+                      image={service.c_icon}
+                      className="!max-w-none !w-6 !h-6 object-contain"
+                    />
+                  )}
+                  <h3 className="text-xl font-semibold">{service.name}</h3>
+                </div>
+                <LexicalRichText
+                  serializedAST={JSON.stringify(
+                    service.richTextDescriptionV2.json
+                  )}
+                />
               </div>
-              <LexicalRichText
-                serializedAST={JSON.stringify(
-                  service.richTextDescriptionV2.json
-                )}
-              />
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
-      </div>
 
-      {/* 📍 Related Locations (Optional Section) */}
-      {/* Uncomment if needed:
+        {/* 📍 Related Locations (Optional Section) */}
+        {/* Uncomment if needed:
         <div>
           <h2 className="text-2xl font-semibold mb-4">Available At These Locations</h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
@@ -278,14 +291,14 @@ const Location: Template<TemplateRenderProps> = ({
         </div>
         */}
 
-      {/* Static Banner Section */}
-
-      {c_staticBanner[0].c_bannerImage && (
-        <Image
-          image={c_staticBanner[0].c_bannerImage}
-          className="rounded-xl border !h-[550px] object-contain mx-auto"
-        />
-      )}
+        {/* Static Banner Section */}
+        {c_staticBanner[0].c_bannerImage && (
+          <Image
+            image={c_staticBanner[0].c_bannerImage}
+            className="rounded-xl border !h-[550px] w-0 object-contain mx-auto"
+          />
+        )}
+      </div>
     </PageLayout>
   );
 };
