@@ -120,7 +120,7 @@ const Location: Template<TemplateRenderProps> = ({
     c_servicesAvailable,
     c_bannerOfferte,
   } = document;
- 
+
   return (
     <PageLayout _site={_site}>
       {/* 🧭 Breadcrumbs */}
@@ -136,66 +136,80 @@ const Location: Template<TemplateRenderProps> = ({
           </div>
         )}
 
-<section className="max-w-7xl mx-auto px-4 md:px-8 py-6 space-y-10">
-  {/* 🟦 Section 1 + 🟨 Section 2 as Two Columns */}
-  <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-start">
-    {/* 🟦 Left Column: Info & CTAs */}
-    <article className="flex flex-col gap-4">
-      <h1 className="text-xl md:text-2xl font-semibold text-gray-700">{name}</h1>
+        <section className="max-w-7xl mx-auto px-4 md:px-8 py-6 space-y-10">
+          {/* 🟦 Section 1 + 🟨 Section 2 as Two Columns */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-start">
+            {/* 🟦 Left Column: Info & CTAs */}
+            <article className="flex flex-col gap-4">
+              <h1 className="text-xl md:text-2xl font-semibold text-gray-700">
+                {name}
+              </h1>
 
-      <HoursStatus
-        currentTemplate={(params: any) => (
-          <span className="HoursStatus-current--search">
-            {params.isOpen ? (
-              <span className="font-semibold text-green-600">Open Now</span>
-            ) : (
-              <span className="font-semibold text-red-600">Closed</span>
-            )}
-          </span>
-        )}
-        hours={hours}
-        timezone={document.timezone}
-        className="text-lg text-gray-800"
-        dayOfWeekTemplate={() => null}
-      />
+              <HoursStatus
+                currentTemplate={(params: any) => (
+                  <span className="HoursStatus-current--search">
+                    {params.isOpen ? (
+                      <span className="font-semibold text-green-600">
+                        Open Now
+                      </span>
+                    ) : (
+                      <span className="font-semibold text-red-600">Closed</span>
+                    )}
+                  </span>
+                )}
+                hours={hours}
+                timezone={document.timezone}
+                className="text-lg text-gray-800"
+                dayOfWeekTemplate={() => null}
+              />
 
-      {/* 📍 CTAs */}
-      <nav className="flex flex-col gap-3 pt-2 w-full items-start">
-        {yextDisplayCoordinate.latitude && yextDisplayCoordinate.longitude && (
-          <a
-            href={`https://www.google.com/maps/search/?api=1&query=${yextDisplayCoordinate.latitude},${yextDisplayCoordinate.longitude}`}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="bg-secondary text-primary text-center font-semibold w-full md:w-72 px-4 py-2 rounded-full border hover:opacity-90"
-          >
-            Ottieni indicazioni
-          </a>
-        )}
-        {mainPhone && (
-          <a
-            href={`tel:${mainPhone}`}
-            className="text-secondary font-semibold w-full md:w-72 border-2 border-secondary px-4 py-2 rounded-full hover:bg-secondary hover:text-white transition text-center"
-          >
-            Chiama
-          </a>
-        )}
-        {reservationUrl && (
-          <a
-            href={reservationUrl.displayUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-secondary font-semibold w-full md:w-72 border-2 border-secondary px-4 py-2 rounded-full hover:bg-secondary hover:text-white transition text-center"
-          >
-            Prenota appuntamento
-          </a>
-        )}
-      </nav>
-    </article>
+              {/* 📍 CTAs */}
+              <nav className="flex flex-col gap-3 pt-2 w-full items-start">
+                {yextDisplayCoordinate.latitude &&
+                  yextDisplayCoordinate.longitude && (
+                    <a
+                      href={`https://www.google.com/maps/search/?api=1&query=${yextDisplayCoordinate.latitude},${yextDisplayCoordinate.longitude}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="w-full md:w-72 px-4 py-2 rounded-full text-center font-semibold 
+                 bg-[#ffffff] text-[#000000] border-2 border-[#000000] 
+                 hover:bg-[#cc0000] hover:text-[#ffffff] hover:border-[#ffffff] 
+                 transition-colors duration-300"
+                    >
+                      Ottieni indicazioni
+                    </a>
+                  )}
 
-  
+                {mainPhone && (
+                  <a
+                    href={`tel:${mainPhone}`}
+                    className="w-full md:w-72 px-4 py-2 rounded-full text-center font-semibold 
+                 bg-[#ffffff] text-[#000000] border-2 border-[#000000] 
+                 hover:bg-[#cc0000] hover:text-[#ffffff] hover:border-[#ffffff] 
+                 transition-colors duration-300"
+                  >
+                    Chiama
+                  </a>
+                )}
 
-    {/* 🟨 Right Column: Hours */}
-    {/* <article className="flex flex-col gap-4">
+                {reservationUrl && (
+                  <a
+                    href={reservationUrl.displayUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="w-full md:w-72 px-4 py-2 rounded-full text-center font-semibold 
+                 bg-[#ffffff] text-[#000000] border-2 border-[#000000] 
+                 hover:bg-[#cc0000] hover:text-[#ffffff] hover:border-[#ffffff] 
+                 transition-colors duration-300"
+                  >
+                    Prenota appuntamento
+                  </a>
+                )}
+              </nav>
+            </article>
+
+            {/* 🟨 Right Column: Hours */}
+            {/* <article className="flex flex-col gap-4">
       <h2 className="text-2xl font-bold text-gray-900 mb-2">Hours</h2>
       <div className="border rounded-lg shadow-sm p-4 bg-gray-50">
         <ul className="space-y-2">
@@ -223,26 +237,24 @@ const Location: Template<TemplateRenderProps> = ({
       </div>
     </article> */}
 
-<article className="flex flex-col gap-8">
-            <h2 className="text-2xl font-bold text-gray-900">Hours</h2>
-            <div className="space-y-2">
-              <HoursTable hours={hours} />
+            <article className="flex flex-col gap-8">
+              <h2 className="text-2xl font-bold text-gray-900">Hours</h2>
+              <div className="space-y-2">
+                <HoursTable hours={hours} />
+              </div>
+            </article>
+          </div>
+
+          {/* 🗺️ Full Width Map Below */}
+          {yextDisplayCoordinate && (
+            <div className="w-full h-[350px] md:h-[500px] lg:h-[600px] rounded-xl overflow-hidden shadow-md border border-gray-300">
+              <StaticMap
+                latitude={yextDisplayCoordinate.latitude}
+                longitude={yextDisplayCoordinate.longitude}
+              />
             </div>
-          </article>
-  </div>
-
-  {/* 🗺️ Full Width Map Below */}
-  {yextDisplayCoordinate && (
-    <div className="w-full h-[350px] md:h-[500px] lg:h-[600px] rounded-xl overflow-hidden shadow-md border border-gray-300">
-      <StaticMap
-        latitude={yextDisplayCoordinate.latitude}
-        longitude={yextDisplayCoordinate.longitude}
-      />
-    </div>
-  )}
-</section>
-
-
+          )}
+        </section>
 
         {/* ✅ Available Services
         <div className="max-w-7xl mx-auto px-6 py-10">
