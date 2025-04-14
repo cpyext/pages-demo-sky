@@ -128,14 +128,66 @@ const Location: Template<TemplateRenderProps> = ({
         <BreadCrumbs data={address} currAddress={address.line1} />
       </main>
       <div className="centered-container space-y-12">
-        {/* Offer Section */}
-        {c_bannerOfferte && (
+       
+       
+       
+       
+       
+       
+       
+       
+       
+       
+       
+       
+       
+       
+        {/* Offer / Carousel Banner Section */}
+        {/* {c_bannerOfferte && (
           <div className="mt-16 w-full">
             <h1 className="text-4xl font-bold text-center">{name}</h1>
             <Carousel data={c_bannerOfferte} />
           </div>
-        )}
+        )} */}
 
+
+        {/* ✅ Offer Section - Handles 1 or more banners */}
+{c_bannerOfferte && c_bannerOfferte.length > 0 && (
+  <div className="mt-16 w-full">
+    <h1 className="text-4xl font-bold text-center">{name}</h1>
+
+    {/* 👇 If only 1 banner, render without carousel */}
+    {c_bannerOfferte.length === 1 ? (
+      <div className="relative block w-full mt-6">
+        {/* Overlay text */}
+        <div className="absolute inset-0 z-10 flex items-center justify-center px-6 py-4">
+          <div className="text-gray-100 font-light text-center mt-4 text-xl md:text-xl lg:text-xl drop-shadow-lg leading-snug w-3/4 max-w-[600px]">
+            <LexicalRichText
+              serializedAST={JSON.stringify(
+                c_bannerOfferte[0].richTextDescriptionV2.json
+              )}
+            />
+          </div>
+        </div>
+
+        {/* Static image */}
+        <Image
+          image={c_bannerOfferte[0].c_bannerImage}
+          className="!w-full !h-full object-cover max-h-[1000px]"
+        />
+      </div>
+    ) : (
+      // More than one banner - show Carousel
+      <Carousel data={c_bannerOfferte} />
+    )}
+  </div>
+)}
+
+
+
+
+
+ {/* Name, CTAs and Hours Section */}
         <section className="max-w-7xl mx-auto px-4 md:px-8 py-6 space-y-10">
           {/* 🟦 Section 1 + 🟨 Section 2 as Two Columns */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-start">
@@ -245,7 +297,7 @@ const Location: Template<TemplateRenderProps> = ({
             </article>
           </div>
 
-          {/* 🗺️ Full Width Map Below */}
+          {/* 🗺️ Full Width Map */}
           {yextDisplayCoordinate && (
             <div className="w-full h-[350px] md:h-[500px] lg:h-[600px] rounded-xl overflow-hidden shadow-md border border-gray-300">
               <StaticMap
